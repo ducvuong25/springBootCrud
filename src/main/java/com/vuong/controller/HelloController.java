@@ -6,7 +6,8 @@
 package com.vuong.controller;
 
 import com.vuong.entity.UserEntity;
-import com.vuong.service.UserService;
+import com.vuong.enumutil.Gender;
+import com.vuong.service.UserServiceIF;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,11 +25,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class HelloController {
 
     @Autowired
-    private UserService userService;
+    private UserServiceIF userServiceIF;
 
     @RequestMapping(path = "/result")
     public String toResult(Model model) {
-        List<UserEntity> users = userService.getAllUsers();
+        List<UserEntity> users = userServiceIF.getAllUsers();
         model.addAttribute("users", users);
         return "result";
     }
@@ -39,34 +40,36 @@ public class HelloController {
         model.addAttribute("user", user);
         model.addAttribute("action", "/addUser");
         model.addAttribute("content", "Add a new User");
+        model.addAttribute("genderEnum", Gender.values());
         return "form";
     }
 
     @RequestMapping(path = "/addUser", method = RequestMethod.POST)
     public String saveUser(@ModelAttribute UserEntity User) {
-        userService.addUser(User);
+        userServiceIF.addUser(User);
         return "redirect:/result";
     }
 
     @RequestMapping(path = "/edit")
     public String toFilledForm(@RequestParam int id,
             Model model) {
-        model.addAttribute("user", userService.getUser(id));
+        model.addAttribute("user", userServiceIF.getUser(id));
         model.addAttribute("action", "/edit");
         model.addAttribute("content", "Edit a User");
+        model.addAttribute("genderEnum", Gender.values());
         return "form";
     }
 
     @RequestMapping(path = "/edit", method = RequestMethod.POST)
     public String updateUser(@ModelAttribute UserEntity user,
             Model model) {
-        userService.addUser(user);
+        userServiceIF.addUser(user);
         return "redirect:/result";
     }
 
     @RequestMapping(path = "/delete")
     public String deleteUser(@RequestParam int id) {
-        userService.removeUser(id);
+        userServiceIF.removeUser(id);
         return "redirect:/result";
     }
 

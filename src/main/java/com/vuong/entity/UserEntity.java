@@ -5,35 +5,44 @@
  */
 package com.vuong.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.vuong.enumutil.Gender;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- *
  * @author ducvuong25
  */
 
 @Entity
-public class UserEntity  {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private int age;
+    private boolean smoking;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    @OneToMany(mappedBy = "userEntity")
+    private List<InterestEntity> interestEntityLists = new ArrayList<>();
+
+
 
     public UserEntity() {
     }
 
-    public UserEntity(int id, String name, int age) {
+    public UserEntity(String name, int age,boolean smoking, Gender gender) {
         this.id = id;
         this.name = name;
         this.age = age;
+        this.smoking = smoking;
+        this.gender = gender;
     }
 
-    
-    
+
     public int getId() {
         return id;
     }
@@ -58,4 +67,19 @@ public class UserEntity  {
         this.age = age;
     }
 
+    public boolean isSmoking() {
+        return smoking;
+    }
+
+    public void setSmoking(boolean smoking) {
+        this.smoking = smoking;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
 }

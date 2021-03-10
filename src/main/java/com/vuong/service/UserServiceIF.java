@@ -12,7 +12,10 @@ import java.util.List;
  *
  * @author ducvuong25
  */
-public interface UserService {
+public interface UserServiceIF {
+
+//
+//    void initDate();
 
     void addUser(UserEntity user);
 
