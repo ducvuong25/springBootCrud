@@ -22,16 +22,16 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author ducvuong25
  */
 @Controller
-public class HelloController {
+public class MainController {
 
     @Autowired
     private UserServiceIF userServiceIF;
 
-    @RequestMapping(path = "/result")
+    @RequestMapping(path = "/")
     public String toResult(Model model) {
         List<UserEntity> users = userServiceIF.getAllUsers();
         model.addAttribute("users", users);
-        return "result";
+        return "index";
     }
 
     @RequestMapping(path = "/addUser")
@@ -47,7 +47,7 @@ public class HelloController {
     @RequestMapping(path = "/addUser", method = RequestMethod.POST)
     public String saveUser(@ModelAttribute UserEntity User) {
         userServiceIF.addUser(User);
-        return "redirect:/result";
+        return "redirect:/";
     }
 
     @RequestMapping(path = "/edit")
@@ -64,13 +64,13 @@ public class HelloController {
     public String updateUser(@ModelAttribute UserEntity user,
             Model model) {
         userServiceIF.addUser(user);
-        return "redirect:/result";
+        return "redirect:/";
     }
 
     @RequestMapping(path = "/delete")
     public String deleteUser(@RequestParam int id) {
         userServiceIF.removeUser(id);
-        return "redirect:/result";
+        return "redirect:/";
     }
 
 }
